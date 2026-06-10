@@ -1,0 +1,126 @@
+/**
+ * Lightweight modal for the YouTube playlist.
+ */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+}
+
+.modal[aria-hidden="false"] {
+  display: block;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.modal__panel {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--top-bar-h, 88px) + 24px);
+  transform: translateX(-50%);
+  width: min(980px, calc(100vw - 32px));
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(10, 10, 10, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 14px 10px 16px;
+}
+
+.modal__title {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.modal__close {
+  appearance: none;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.modal__close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.modal__body {
+  position: relative;
+  padding: 0;
+}
+
+.modal__ratio {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.modal__ratio iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.modal__content {
+  padding: 18px 16px 20px 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.modal__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #2b4bff;
+  color: #fff;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 900;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  box-shadow: 0 14px 40px rgba(43, 75, 255, 0.32);
+}
+
+/* Allow modal__cta to be used as a non-link message chip */
+.modal__cta[role="status"] {
+  cursor: default;
+  user-select: text;
+}
+
+.modal__cta:hover {
+  filter: brightness(1.08);
+}
+
+.modal__cta:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+

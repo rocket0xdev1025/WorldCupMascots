@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" class="is-loading">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>$WCM</title>
+    <link rel="icon" href="img/favicon.png" type="image/png" sizes="any" />
+    <link rel="stylesheet" href="css/boot.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/mascots.css" />
+    <link rel="stylesheet" href="css/background.css" />
+    <link rel="stylesheet" href="css/top-bar.css" />
+    <link rel="stylesheet" href="css/ball.css" />
+    <link rel="stylesheet" href="css/modal.css" />
+    <link rel="stylesheet" href="css/pan-indicator.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+  </head>
+  <body>
+    <div class="boot-loader" aria-hidden="true">
+      <div class="boot-loader__card">
+        <span class="boot-loader__dot"></span>
+        <span>Loading</span>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="bg-stage" aria-hidden="true">
+        <div class="bg-vignette"></div>
+      </div>
+
+      <header class="top-bar" role="banner">
+        <div class="top-bar__inner">
+          <div class="top-bar__left">
+            <img
+              class="top-bar__logo"
+              src="logo.png"
+              alt="World Cup Memecoin"
+              width="120"
+              height="52"
+              decoding="async"
+            />
+            <div class="top-bar__titles">
+              <p class="top-bar__title">World Cup Memecoin</p>
+              <p class="top-bar__dates">$WCM</p>
+            </div>
+          </div>
+          <div class="top-bar__right">
+            <div class="top-bar__countdown" id="countdown" aria-live="polite" aria-atomic="true">
+              <div class="top-bar__unit">
+                <span class="top-bar__num" data-cd="days">00</span>
+                <span class="top-bar__label" data-short="d">days</span>
+              </div>
+              <div class="top-bar__unit">
+                <span class="top-bar__num" data-cd="hours">00</span>
+                <span class="top-bar__label" data-short="h">hours</span>
+              </div>
+              <div class="top-bar__unit">
+                <span class="top-bar__num" data-cd="mins">00</span>
+                <span class="top-bar__label" data-short="m">mins</span>
+              </div>
+              <div class="top-bar__unit">
+                <span class="top-bar__num" data-cd="secs">00</span>
+                <span class="top-bar__label" data-short="s">secs</span>
+              </div>
+            </div>
+            <a
+              class="top-bar__btn"
+              href="https://pump.fun/coin/3CQ1JwUEcMsxWMev8pw2KxpfujE2CRe4FEVMsBm5pump"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="BUY"
+            >
+              BUY
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <div class="pan-indicator" id="pan-indicator" aria-hidden="true">
+        <div class="pan-indicator__track">
+          <div class="pan-indicator__thumb" id="pan-indicator-thumb"></div>
+        </div>
+      </div>
+      <div class="viewport">
+        <div class="stage-outer" id="stage-outer">
+          <div class="stage" id="stage" role="img" aria-label="Scene composition">
+          <!-- 1: Ground plate (full artboard) -->
+          <div class="layer-ground" aria-hidden="true">
+            <img
+              class="layer-ground-img"
+              src="img/ground.jpg"
+              alt=""
+              width="3000"
+              height="1687"
+              decoding="async"
+              draggable="false"
+            />
+          </div>
+
+          <!-- 2: Back �?single box, aligned frames -->
+          <div class="layer-back-wrap">
+            <img
+              class="flicker-base"
+              src="img/back_01.png"
+              alt=""
+              width="2820"
+              height="884"
+            />
+            <img
+              class="flicker-top"
+              src="img/back_02.png"
+              alt=""
+              width="2820"
+              height="884"
+            />
+          </div>
+
+          <!-- 3: Mascots (normal above front, hover below front) -->
+          <div class="layer-mascots-under" aria-hidden="true">
+            <img class="mascot-hover mascot-hover--1" src="img/mascot1_hover.png" alt="" decoding="async" draggable="false" />
+            <img class="mascot-hover mascot-hover--2" src="img/mascot2_hover.png" alt="" decoding="async" draggable="false" />
+            <img class="mascot-hover mascot-hover--3" src="img/mascot3_hover.png" alt="" decoding="async" draggable="false" />
+          </div>
+
+          <!-- 4: Front -->
+          <div class="layer-front-wrap">
+            <img
+              class="flicker-base"
+              src="img/front_01.png"
+              alt=""
+              width="2822"
+              height="752"
+            />
+            <img
+              class="flicker-top"
+              src="img/front_02.png"
+              alt=""
+              width="2822"
+              height="752"
+            />
+          </div>
+
+          <div class="layer-mascots-over">
+            <div class="mascot-hit mascot-hit--1" data-mascot="1" tabindex="0" aria-label="Mascot 1">
+              <img class="mascot-normal" src="img/mascot1_normal.png" alt="" decoding="async" draggable="false" />
+            </div>
+            <div class="mascot-hit mascot-hit--2" data-mascot="2" tabindex="0" aria-label="Mascot 2">
+              <img class="mascot-normal" src="img/mascot2_normal.png" alt="" decoding="async" draggable="false" />
+            </div>
+            <div class="mascot-hit mascot-hit--3" data-mascot="3" tabindex="0" aria-label="Mascot 3">
+              <img class="mascot-normal" src="img/mascot3_normal.png" alt="" decoding="async" draggable="false" />
+            </div>
+          </div>
+
+          <!-- 5a: Screens 1�? �?bezel + inner -->
+          <div class="screen-pair screen-1">
+            <a class="screen-link" href="https://x.com/WCMCoin_sol" target="_blank" rel="noopener noreferrer" aria-label="Open community"></a>
+            <div class="screen-hover-scale">
+              <div class="screen-layers">
+                <div class="screen-inner-wrap inner-1-union">
+                  <img
+                    class="screen-inner flicker-base inner-s1-pos-a"
+                    src="img/screen01_inner01.png"
+                    alt=""
+                    width="225"
+                    height="249"
+                  />
+                  <img
+                    class="screen-inner flicker-top inner-s1-pos-b"
+                    src="img/screen01_inner02.png"
+                    alt=""
+                    width="236"
+                    height="273"
+                  />
+                </div>
+                <img
+                  class="screen-outer flicker-base"
+                  src="img/screen1_01.png"
+                  alt=""
+                  width="276"
+                  height="303"
+                />
+                <img
+                  class="screen-outer flicker-top"
+                  src="img/screen1_02.png"
+                  alt=""
+                  width="276"
+                  height="303"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="screen-pair screen-2">
+            <a class="screen-link" href="https://dexscreener.com/ethereum/0xcomingsoon" target="_blank" rel="noopener noreferrer" aria-label="Open DexScreener"></a>
+            <div class="screen-hover-scale">
+              <div class="screen-layers">
+                <div class="screen-inner-wrap">
+                  <img class="screen-inner flicker-base inner-s2" src="img/screen02_inner01.png" alt="" width="152" height="74" />
+                  <img class="screen-inner flicker-top inner-s2" src="img/screen02_inner02.png" alt="" width="152" height="74" />
+                </div>
+                <img class="screen-outer flicker-base" src="img/screen2_01.png" alt="" width="177" height="137" />
+                <img class="screen-outer flicker-top" src="img/screen2_02.png" alt="" width="177" height="137" />
+              </div>
+            </div>
+          </div>
+
+          <div class="screen-pair screen-3">
+            <a class="screen-link" href="https://app.uniswap.org/#/swap?inputCurrency=eth&outputCurrency=0xcomingsoon" target="_blank" rel="noopener noreferrer" aria-label="Open DexScreener"></a>
+            <div class="screen-hover-scale">
+              <div class="screen-layers">
+                <div class="screen-inner-wrap">
+                  <img class="screen-inner flicker-base inner-s3" src="img/screen03_inner01.png" alt="" width="266" height="123" />
+                  <img class="screen-inner flicker-top inner-s3" src="img/screen03_inner02.png" alt="" width="266" height="123" />
+                </div>
+                <img class="screen-outer flicker-base" src="img/screen3_01.png" alt="" width="292" height="185" />
+                <img class="screen-outer flicker-top" src="img/screen3_02.png" alt="" width="292" height="185" />
+              </div>
+            </div>
+          </div>
+
+          <div class="screen-pair screen-4">
+            <button class="screen-link screen-link--button" type="button" data-modal-open="yt-playlist" aria-label="Open playlist"></button>
+            <div class="screen-hover-scale">
+              <div class="screen-layers">
+                <div class="screen-inner-wrap">
+                  <img class="screen-inner flicker-base inner-s4" src="img/screen04_inner01.png" alt="" width="146" height="74" />
+                  <img class="screen-inner flicker-top inner-s4" src="img/screen04_inner02.png" alt="" width="146" height="74" />
+                </div>
+                <img class="screen-outer flicker-base" src="img/screen4_01.png" alt="" width="177" height="137" />
+                <img class="screen-outer flicker-top" src="img/screen4_02.png" alt="" width="177" height="137" />
+              </div>
+            </div>
+          </div>
+
+          <div class="screen-pair screen-5">
+            <a class="screen-link" href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener noreferrer" aria-label="Open World Cup Memecoin"></a>
+            <div class="screen-hover-scale">
+              <div class="screen-layers">
+                <div class="screen-inner-wrap">
+                  <img class="screen-inner flicker-base inner-s5" src="img/screen05_inner01.png" alt="" width="254" height="242" />
+                  <img class="screen-inner flicker-top inner-s5" src="img/screen05_inner02.png" alt="" width="254" height="242" />
+                </div>
+                <img class="screen-outer flicker-base" src="img/screen5_01.png" alt="" width="276" height="302" />
+                <img class="screen-outer flicker-top" src="img/screen5_02.png" alt="" width="276" height="302" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 5b: Screens 6�? �?bezel only -->
+          <div class="screen-pair screen-6" aria-label="10M SOON">
+            <div class="screen-hover-scale">
+              <div class="screen-layers">
+                <div class="screen-inner-wrap">
+                  <img class="screen-inner flicker-base inner-s6" src="img/screen06_inner01.png" alt="" decoding="async" draggable="false" />
+                  <img class="screen-inner flicker-top inner-s6" src="img/screen06_inner02.png" alt="" decoding="async" draggable="false" />
+                </div>
+                <img class="screen-outer flicker-base" src="img/screen6_01.png" alt="" width="231" height="276" />
+                <img class="screen-outer flicker-top" src="img/screen6_02.png" alt="" width="231" height="276" />
+                <div class="screen-price" aria-hidden="true">
+                  <div class="screen-price__bg"></div>
+                  <div class="screen-price__text">
+                    <div class="screen-price__sym screen-price__sym--large">10M</div>
+                    <div class="screen-price__val">SOON</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="screen-pair screen-7" aria-label="MOON">
+            <div class="screen-hover-scale">
+              <div class="screen-layers">
+                <div class="screen-inner-wrap">
+                  <img class="screen-inner flicker-base inner-s7" src="img/screen07_inner01.png" alt="" decoding="async" draggable="false" />
+                  <img class="screen-inner flicker-top inner-s7" src="img/screen07_inner02.png" alt="" decoding="async" draggable="false" />
+                </div>
+                <img class="screen-outer flicker-base" src="img/screen7_01.png" alt="" width="236" height="267" />
+                <img class="screen-outer flicker-top" src="img/screen7_02.png" alt="" width="236" height="267" />
+                <div class="screen-price" aria-hidden="true">
+                  <div class="screen-price__bg"></div>
+                  <div class="screen-price__text">
+                    <div class="screen-price__val screen-price__val--moon">MOON</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ball" id="ball" aria-hidden="true">
+      <div class="ball__inner">
+        <img src="img/ball.png" alt="" width="55" height="55" draggable="false" decoding="async" />
+      </div>
+    </div>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="site-footer__inner">
+        <nav class="site-footer__links" aria-label="External links">
+          <a
+            class="site-footer__link"
+            href="https://x.com/WCMCoin_sol"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            X
+          </a>
+          <a
+            class="site-footer__link"
+            href="https://dexscreener.com/ethereum/0xcomingsoon"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            DexScreener
+          </a>
+          <a
+            class="site-footer__link"
+            href="https://www.dextools.io/app/solana/pair-explorer/0xcomingsoon"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            DexTools
+          </a>
+          <a
+            class="site-footer__link"
+            href="https://t.me/WorldCupMascots"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Telegram
+          </a>
+        </nav>
+        <div class="site-footer__copy">© 2026 $WCM Token</div>
+      </div>
+    </footer>
+
+    <div class="modal" id="modal-yt-playlist" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Playlist">
+      <div class="modal__backdrop" data-modal-close></div>
+      <div class="modal__panel" role="document">
+        <div class="modal__header">
+          <p class="modal__title">Highlights playlist</p>
+          <button class="modal__close" type="button" data-modal-close aria-label="Close">Close</button>
+        </div>
+        <div class="modal__body">
+          <div class="modal__ratio">
+            <iframe
+              title="YouTube video"
+              src="https://www.youtube-nocookie.com/embed/OIwVnUD6_ts?rel=0&modestbranding=1"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="modal__content">
+            <a
+              class="modal__cta"
+              href="https://www.youtube.com/playlist?list=PLCGIzmTE4d0hhfpwtaWR-mgtRZmsy5e4t"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open full playlist
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="modal-connect" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Connect">
+      <div class="modal__backdrop" data-modal-close></div>
+      <div class="modal__panel" role="document">
+        <div class="modal__header">
+          <p class="modal__title">Connect</p>
+          <button class="modal__close" type="button" data-modal-close aria-label="Close">Close</button>
+        </div>
+        <div class="modal__body">
+          <div class="modal__content">
+            <div class="modal__cta" role="status" aria-live="polite">$WCM DAPP coming soon!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/boot.js" defer></script>
+    <script src="js/prices.js" defer></script>
+    <script src="js/countdown.js?v=2" defer></script>
+    <script src="js/topbar-measure.js" defer></script>
+    <script src="js/stage-scale.js" defer></script>
+    <script src="js/pan-indicator.js" defer></script>
+    <script src="js/mascots.js" defer></script>
+    <script src="js/ball.js" defer></script>
+    <script src="js/modal.js" defer></script>
+  </body>
+<script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'},{'ap':'cpsh-oh'},{'server':'sxb1plzcpnl507794'},{'dcenter':'sxb1'},{'cp_id':'10853650'},{'cp_cl':'8'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script><script src='https://img1.wsimg.com/traffic-assets/js/tccl.min.js'></script></html>

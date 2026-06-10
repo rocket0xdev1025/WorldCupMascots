@@ -1,0 +1,23 @@
+/**
+ * Background: static full-screen wash + vignette (no grid, no pointer parallax).
+ */
+
+:root {
+  --bg-deep: #070a12;
+  --bg-mid: #0b1530;
+}
+
+.bg-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-mid) 45%, #0a1420 100%);
+}
+
+.bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 65% 55% at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.75) 100%);
+  pointer-events: none;
+}

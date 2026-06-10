@@ -1,0 +1,500 @@
+/**
+ * Main stage: 3000×1687 coordinate system.
+ * Layer order (bottom to top): ground → back → mascots → front → screens.
+ * Two-frame swap: flicker-base + flicker-top (top layer covers base half the time).
+ * Screen hover: bottom fixed, ~17.5% scale up.
+ */
+
+:root {
+  --stage-w: 3000;
+  --stage-h: 1687;
+  /* Full cycle duration (base + top frame); steps(2) = half base, half top */
+  --flicker-cycle: 0.22s;
+  /* Frame + inner content together; ~15–20% range */
+  --screen-hover-scale: 1.175;
+  --screen-hover-duration: 0.28s;
+  --screen-hover-ease: cubic-bezier(0.33, 1, 0.68, 1);
+  /* Subtle blue glow that follows alpha edges (#2b4bff) */
+  --hover-glow-filter: drop-shadow(0 0 18px rgba(43, 75, 255, 0.62))
+    drop-shadow(0 0 56px rgba(43, 75, 255, 0.28));
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: #0f0f12;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Disable text/image selection and native drag across the page */
+body,
+img {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+body {
+  -webkit-touch-callout: none;
+}
+
+/* Viewport: fit window */
+.viewport {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(8px, 2vw, 24px);
+  position: relative;
+  z-index: 1;
+}
+
+/* Landscape: edge-to-edge (no body-colored side gutters); clip stage cover overflow */
+@media (orientation: landscape) {
+  .viewport {
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+}
+
+/* Portrait: edge-to-edge (no body-colored gutters); horizontal pan for the wide stage */
+@media (orientation: portrait) {
+  .viewport {
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .viewport[data-mode="pan-x"] {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+  }
+}
+
+/* Allow scaled screen layers to extend on hover */
+.stage-outer {
+  position: relative;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+/* 3000×1687 artboard; scaled via JS */
+.stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--stage-w) * 1px);
+  height: calc(var(--stage-h) * 1px);
+  transform-origin: 0 0;
+  overflow: visible;
+}
+
+/* Shared absolute layer helper */
+.layer-abs {
+  position: absolute;
+  display: block;
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+}
+
+/*
+ * Two frames: flicker-base stays opaque; flicker-top animates 0→1 with steps(2).
+ * No frame where both are transparent, so no black flash behind.
+ */
+@keyframes flicker-top {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.flicker-base {
+  opacity: 1;
+  z-index: 1;
+}
+
+.flicker-top {
+  z-index: 2;
+  animation: flicker-top var(--flicker-cycle) steps(2, start) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flicker-top {
+    animation: none;
+    opacity: 0;
+  }
+
+  .screen-hover-scale {
+    transition: none !important;
+  }
+
+  .screen-pair:hover .screen-hover-scale {
+    transform: none !important;
+  }
+}
+
+/* --- Ground (bottom) --- */
+.layer-ground {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.layer-ground .layer-ground-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  max-width: none;
+  pointer-events: none;
+}
+
+/* --- Back: single box; both PNGs share one rect (no position jump) --- */
+.layer-back-wrap {
+  position: absolute;
+  z-index: 2;
+  left: 90px;
+  top: 265px;
+  width: 2820px;
+  height: 884px;
+}
+
+.layer-back-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  pointer-events: none;
+}
+
+/* --- Front --- */
+.layer-front-wrap {
+  position: absolute;
+  z-index: 3;
+  left: 89px;
+  top: 752px;
+  width: 2822px;
+  height: 752px;
+}
+
+.layer-front-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  pointer-events: none;
+}
+
+/* --- Screens --- */
+.screen-pair {
+  position: absolute;
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.screen-link {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: block;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.screen-link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 6px;
+  border-radius: 14px;
+}
+
+.screen-pair:hover {
+  z-index: 40;
+}
+
+.screen-hover-scale {
+  position: absolute;
+  inset: 0;
+  transform-origin: bottom center;
+  transition:
+    transform var(--screen-hover-duration) var(--screen-hover-ease),
+    filter 0.28s ease;
+  will-change: transform;
+  filter: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .screen-pair:hover .screen-hover-scale {
+    transform: scale(var(--screen-hover-scale));
+    filter: var(--hover-glow-filter);
+  }
+}
+
+.screen-layers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.screen-price {
+  position: absolute;
+  inset: 20px;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+}
+
+.screen-price__bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(43, 75, 255, 0.28), rgba(0, 212, 170, 0.14)),
+    radial-gradient(ellipse 60% 70% at 50% 35%, rgba(43, 75, 255, 0.35), transparent 70%);
+  filter: blur(0.2px);
+  opacity: 0.9;
+}
+
+.screen-price__text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.screen-price__sym {
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.screen-price__val {
+  margin-top: 6px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  font-size: 28px;
+}
+
+.screen-price__sym--large {
+  font-size: 28px;
+}
+
+.screen-price__val--moon {
+  font-size: 24px;
+}
+
+.screen-6 .screen-price {
+  inset: 18px;
+}
+
+.screen-7 .screen-price {
+  inset: 18px;
+}
+
+/* Screen 6/7: 28° text tilt + opposing gradient direction */
+.screen-6 .screen-price__text {
+  transform: rotate(28deg);
+  transform-origin: center;
+}
+
+.screen-7 .screen-price__text {
+  transform: rotate(-28deg);
+  transform-origin: center;
+}
+
+/* Remove the colored background panels for screen 6/7 */
+.screen-6 .screen-price__bg,
+.screen-7 .screen-price__bg {
+  background: transparent;
+  opacity: 1;
+}
+
+/* Inner content below; bezel (outer) on top */
+.screen-inner-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Screen 1 inner: two frames in one union box */
+.screen-1 .screen-inner-wrap.inner-1-union {
+  inset: auto;
+  left: 35px;
+  top: 24px;
+  width: 236px;
+  height: 273px;
+}
+
+.screen-layers .screen-outer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  max-width: none;
+}
+
+.screen-layers .screen-outer.flicker-base {
+  z-index: 2;
+}
+
+.screen-layers .screen-outer.flicker-top {
+  z-index: 3;
+}
+
+.screen-inner-wrap .screen-inner {
+  position: absolute;
+  object-fit: fill;
+  display: block;
+  max-width: none;
+}
+
+/*
+ * Inner screens: local coords = global minus screen box (left, top).
+ */
+.screen-1 .inner-s1-pos-a {
+  left: 11px;
+  top: 12px;
+  width: 225px;
+  height: 249px;
+}
+.screen-1 .inner-s1-pos-b {
+  left: 0;
+  top: 0;
+  width: 236px;
+  height: 273px;
+}
+
+.screen-2 .inner-s2 {
+  left: 18px;
+  top: 21px;
+  width: 152px;
+  height: 74px;
+}
+
+.screen-3 .inner-s3 {
+  left: 14px;
+  top: 24px;
+  width: 266px;
+  height: 123px;
+}
+
+.screen-4 .inner-s4 {
+  left: 11px;
+  top: 21px;
+  width: 146px;
+  height: 74px;
+}
+
+.screen-5 .inner-s5 {
+  left: -6px;
+  top: 43px;
+  width: 254px;
+  height: 242px;
+}
+
+/* Screen 6/7 inner placement (stage coords provided map to opposite screen boxes) */
+.screen-6 .inner-s6 {
+  left: 4px;
+  top: 35px;
+  width: 205px;
+  height: 214px;
+}
+
+.screen-7 .inner-s7 {
+  left: 29px;
+  top: 14px;
+  width: 205px;
+  height: 230px;
+}
+
+/* Screen positions (3000×1687) */
+.screen-1 {
+  z-index: 10;
+  left: 354px;
+  top: 280px;
+  width: 276px;
+  height: 303px;
+}
+.screen-2 {
+  z-index: 11;
+  left: 817px;
+  top: 240px;
+  width: 177px;
+  height: 137px;
+}
+.screen-3 {
+  z-index: 12;
+  left: 1349px;
+  top: 185px;
+  width: 292px;
+  height: 185px;
+}
+.screen-4 {
+  z-index: 13;
+  left: 1996px;
+  top: 240px;
+  width: 177px;
+  height: 137px;
+}
+.screen-5 {
+  z-index: 14;
+  left: 2360px;
+  top: 280px;
+  width: 276px;
+  height: 302px;
+}
+.screen-6 {
+  z-index: 15;
+  left: 281px;
+  top: 783px;
+  width: 231px;
+  height: 276px;
+}
+.screen-7 {
+  z-index: 16;
+  left: 2479px;
+  top: 788px;
+  width: 236px;
+  height: 267px;
+}

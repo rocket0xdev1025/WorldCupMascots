@@ -1,0 +1,111 @@
+/**
+ * Mascots:
+ * - Normal state sits above the front layer.
+ * - Hover state is revealed below the front layer.
+ */
+
+.layer-mascots-under,
+.layer-mascots-over {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.layer-mascots-under {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.layer-mascots-over {
+  z-index: 4;
+  pointer-events: none;
+}
+
+.mascot-hover {
+  position: absolute;
+  display: block;
+  max-width: none;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.18s ease, filter 0.28s ease;
+  filter: none;
+}
+
+.mascot-hover.is-on {
+  opacity: 1;
+  filter: var(--hover-glow-filter);
+}
+
+.mascot-hit {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+  outline: none;
+  filter: none;
+}
+
+.mascot-normal {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: opacity 0.14s ease, filter 0.28s ease;
+}
+
+.mascot-hit.is-active .mascot-normal {
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mascot-hit:hover .mascot-normal,
+  .mascot-hit:focus-visible .mascot-normal {
+    opacity: 0;
+  }
+}
+
+/* Hover (under front) rectangles */
+.mascot-hover--1 {
+  left: 974px;
+  top: 607px;
+  width: 442px;
+  height: 566px;
+}
+.mascot-hover--2 {
+  left: 1357px;
+  top: 650px;
+  width: 316px;
+  height: 477px;
+}
+.mascot-hover--3 {
+  left: 1469px;
+  top: 711px;
+  width: 534px;
+  height: 428px;
+}
+
+/* Normal (over front) rectangles */
+.mascot-hit--1 {
+  left: 1153px;
+  top: 794px;
+  width: 205px;
+  height: 263px;
+}
+.mascot-hit--2 {
+  left: 1396px;
+  top: 788px;
+  width: 190px;
+  height: 273px;
+}
+.mascot-hit--3 {
+  left: 1533px;
+  top: 808px;
+  width: 314px;
+  height: 254px;
+}

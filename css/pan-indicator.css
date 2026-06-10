@@ -1,0 +1,57 @@
+/**
+ * Horizontal pan indicator (shown in portrait pan mode).
+ */
+
+.pan-indicator {
+  position: fixed;
+  top: calc(var(--top-bar-h, 88px) + 6px);
+  left: 0;
+  right: 0;
+  z-index: 2600;
+  padding: 8px 16px 6px 16px;
+  display: none;
+  /* Don't block natural swipe scrolling; only the track is interactive. */
+  pointer-events: none;
+}
+
+/* Only show when the viewport is in pan-x mode */
+.viewport[data-mode="pan-x"] ~ .pan-indicator,
+.pan-indicator.is-on {
+  display: block;
+}
+
+.pan-indicator__track {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  touch-action: pan-x;
+  cursor: ew-resize;
+  user-select: none;
+  pointer-events: auto;
+}
+
+.pan-indicator__thumb {
+  position: absolute;
+  top: 2px;
+  left: 1px;
+  height: 10px;
+  width: 30%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(43, 75, 255, 1), rgba(43, 75, 255, 0.35));
+  box-shadow: 0 0 22px rgba(43, 75, 255, 0.65);
+  transform: translateX(0);
+  will-change: transform, width;
+  transition: opacity 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pan-indicator__thumb {
+    transition: none;
+  }
+}
+

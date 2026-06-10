@@ -1,0 +1,346 @@
+/**
+ * Top bar: World Cup Memecoin — logo, dates, countdown, CTA.
+ */
+
+:root {
+  --top-bar-h: clamp(72px, 10vw, 96px);
+  --top-bar-bg: #2b4bff;
+  --top-bar-text: #ffffff;
+  --top-bar-btn-bg: #0a0a0a;
+  --top-bar-pad-x: clamp(16px, 4vw, 48px);
+}
+
+body {
+  padding-top: var(--top-bar-h);
+}
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  min-height: var(--top-bar-h);
+  display: flex;
+  align-items: center;
+  background: var(--top-bar-bg);
+  color: var(--top-bar-text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.top-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(12px, 3vw, 32px);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding-left: var(--top-bar-pad-x);
+  padding-right: var(--top-bar-pad-x);
+  flex-wrap: wrap;
+  row-gap: 8px;
+  width: 100%;
+}
+
+.top-bar__left {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 20px);
+  min-width: 0;
+}
+
+.top-bar__logo {
+  display: block;
+  height: clamp(40px, 6vw, 52px);
+  width: auto;
+  flex-shrink: 0;
+}
+
+.top-bar__titles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.top-bar__title {
+  margin: 0;
+  font-size: clamp(0.875rem, 1.6vw, 1.0625rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.top-bar__dates {
+  margin: 0;
+  font-size: clamp(0.75rem, 1.3vw, 0.875rem);
+  font-weight: 400;
+  line-height: 1.2;
+  opacity: 0.95;
+  white-space: nowrap;
+}
+
+.top-bar__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 36px);
+  flex-shrink: 0;
+}
+
+.top-bar__prices {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.price-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0.4em 0.85em;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  white-space: nowrap;
+}
+
+.price-pill__sym {
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.price-pill__val {
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-pill__cur {
+  font-size: 0.75rem;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.price-pill.is-loading .price-pill__val {
+  opacity: 0.85;
+}
+
+.price-pill.is-error .price-pill__val {
+  opacity: 0.9;
+}
+
+.top-bar__countdown {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(12px, 2.5vw, 28px);
+}
+
+.top-bar__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5ch;
+}
+
+.top-bar__num {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.top-bar__label {
+  font-size: clamp(0.625rem, 1vw, 0.75rem);
+  font-weight: 500;
+  text-transform: lowercase;
+  opacity: 0.92;
+  margin-top: 2px;
+}
+
+.top-bar__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55em 1.35em;
+  border-radius: 999px;
+  background: var(--top-bar-btn-bg);
+  color: var(--top-bar-text);
+  font-size: clamp(0.8125rem, 1.2vw, 0.9375rem);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.top-bar__btn:hover {
+  background: #1a1a1a;
+}
+
+.top-bar__btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* Viewport height accounts for fixed bar (avoids double scroll) */
+.viewport {
+  height: calc(100vh - var(--top-bar-h) - var(--footer-h, 44px));
+  min-height: 0;
+}
+
+@media (max-width: 720px) {
+  .top-bar__inner {
+    justify-content: center;
+  }
+
+  .top-bar__title,
+  .top-bar__dates {
+    white-space: normal;
+  }
+
+  .top-bar__right {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .top-bar__prices {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+/* Portrait optimization: reduce height + simplify spacing */
+@media (orientation: portrait) and (max-width: 900px) {
+  :root {
+    --top-bar-h: clamp(72px, 14vw, 110px);
+  }
+
+  .top-bar__inner {
+    gap: 12px;
+    row-gap: 8px;
+    align-content: center;
+  }
+
+  .top-bar__logo {
+    height: clamp(36px, 7vw, 48px);
+  }
+
+  .top-bar__title {
+    font-size: 0.98rem;
+  }
+
+  .top-bar__dates {
+    font-size: 0.82rem;
+  }
+
+  .top-bar__countdown {
+    gap: 14px;
+  }
+
+  .top-bar__label {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+    margin-top: 0;
+    margin-left: 6px;
+    opacity: 0.78;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  /* Use abbreviated labels in portrait without changing desktop text */
+  .top-bar__label {
+    font-size: 0;
+    letter-spacing: 0;
+    text-transform: none;
+    margin-left: 6px;
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  .top-bar__label::after {
+    content: attr(data-short);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.78;
+  }
+
+  .top-bar__unit {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0;
+    min-width: 0;
+  }
+
+  .top-bar__btn {
+    padding: 0.5em 1.1em;
+  }
+
+  .top-bar__right {
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .top-bar__prices {
+    order: 2;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: center;
+    width: 100%;
+    padding: 2px 2px 0 2px;
+    scroll-snap-type: x proximity;
+  }
+
+  /* Center SOL + $WCM as a single group */
+  .top-bar__prices {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .top-bar__countdown {
+    order: 1;
+    width: auto;
+    justify-content: center;
+  }
+
+  .top-bar__btn {
+    order: 1;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .price-pill {
+    padding: 0.4em 0.78em;
+    scroll-snap-align: start;
+  }
+
+  .top-bar__countdown {
+    gap: 10px;
+  }
+
+  .top-bar__num {
+    font-size: 1.2rem;
+  }
+
+  .top-bar__btn {
+    white-space: nowrap;
+  }
+}

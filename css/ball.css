@@ -1,0 +1,47 @@
+/**
+ * Draggable ball with simple physics (gravity + bounce).
+ * The ball is viewport-bound (not tied to the stage).
+ */
+
+:root {
+  --ball-size: 55px;
+}
+
+.ball {
+  position: fixed;
+  z-index: 2500;
+  left: 50vw;
+  top: 120px;
+  width: var(--ball-size);
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+}
+
+.ball__inner {
+  width: 100%;
+  will-change: transform;
+}
+
+.ball__inner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  pointer-events: none;
+  vertical-align: middle;
+}
+
+.ball.is-dragging {
+  cursor: grabbing;
+}
+
+.ball:not(.is-dragging) {
+  cursor: grab;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ball {
+    scroll-behavior: auto;
+  }
+}
